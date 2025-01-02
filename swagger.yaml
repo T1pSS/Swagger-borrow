@@ -2485,7 +2485,7 @@ components:
           example: 1
         author:
           type: string
-          example: {name_th:สมชาย , name_en:Somchai , alias:somchai123}
+          example: {name_th:สมชายย , name_en:Somchai , alias:somchai123}
         categories:
           type: string
           example: {categories_id:1 , code:C569304 , name_th:การศึกษา , name_en:Education}
