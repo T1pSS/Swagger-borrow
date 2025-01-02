@@ -1,0 +1,391 @@
+                    
+                    
+  # /most-borrowed-books:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาหนังสือที่ถูกยืมมากที่สุด พร้อมจำนวนครั้งที่ยืม
+  #     description: ค้นหาหนังสือที่ถูกยืมมากที่สุด พร้อมกับจำนวนครั้งที่ยืม
+  #     responses:
+  #       '200':
+  #         description: รายการหนังสือที่ถูกยืมมากที่สุดและจำนวนครั้งที่ยืม
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 book_id:
+  #                   type: integer
+  #                 borrow_count:
+  #                   type: integer
+
+  # /borrower-stats:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ยืมแต่ละคน และจำนวนหนังสือที่เขายืมไป
+  #     description: ค้นหาผู้ยืมแต่ละคน พร้อมกับจำนวนหนังสือที่เขายืมไป
+  #     responses:
+  #       '200':
+  #         description: รายชื่อผู้ยืมและจำนวนหนังสือที่ยืมไป
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 borrower_id:
+  #                   type: integer
+  #                 book_count:
+  #                   type: integer
+
+  # /most-active-borrower:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ยืมที่มีจำนวนครั้งยืมหนังสือมากที่สุด
+  #     description: ค้นหาผู้ยืมที่มีจำนวนครั้งยืมหนังสือมากที่สุด
+  #     responses:
+  #       '200':
+  #         description: ผู้ยืมที่มีจำนวนครั้งยืมมากที่สุด
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 borrower_id:
+  #                   type: integer
+  #                 borrow_count:
+  #                   type: integer
+
+  # /unborrowed-books:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาหนังสือที่ยังไม่ถูกยืม
+  #     description: ค้นหาหนังสือที่ยังไม่ได้ถูกยืม
+  #     responses:
+  #       '200':
+  #         description: รายการหนังสือที่ยังไม่ได้ถูกยืม
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 type: object
+  #                 properties:
+  #                   book_id:
+  #                     type: integer
+  #                   title:
+  #                     type: string
+
+  # /borrowers-without-returns:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ยืมที่ยืมหนังสือแต่ไม่เคยคืน
+  #     description: ค้นหาผู้ยืมที่ยืมหนังสือแต่ไม่เคยคืน
+  #     responses:
+  #       '200':
+  #         description: รายชื่อผู้ยืมที่ยังไม่คืนหนังสือ
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 borrower_id:
+  #                   type: integer
+  #                 borrowed_books:
+  #                   type: array
+  #                   items:
+  #                     type: integer
+
+  # /highest-fine-borrower:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ที่มีการค้างค่าปรับมากที่สุด
+  #     description: ค้นหาผู้ที่มีค่าปรับจากการคืนหนังสือที่ล่าช้ามากที่สุด
+  #     responses:
+  #       '200':
+  #         description: ผู้ที่มีค่าปรับสูงสุด
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 borrower_id:
+  #                   type: integer
+  #                 fine_amount:
+  #                   type: number
+  #                   format: float
+
+  # /books-borrowed-and-returned-together:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาหนังสือที่ถูกยืมและคืนในช่วงเวลาเดียวกัน
+  #     description: ค้นหาหนังสือที่ถูกยืมและคืนในช่วงเวลาเดียวกัน
+  #     responses:
+  #       '200':
+  #         description: รายการหนังสือที่ถูกยืมและคืนในช่วงเวลาเดียวกัน
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 type: object
+  #                 properties:
+  #                   book_id:
+  #                     type: integer
+  #                   borrow_date:
+  #                     type: string
+  #                     format: date
+  #                   return_date:
+  #                     type: string
+  #                     format: date
+
+  # /user-borrowed-books-count:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาจำนวนครั้งที่แต่ละผู้ใช้ยืมหนังสือ
+  #     description: ค้นหาจำนวนครั้งที่ผู้ใช้แต่ละคนยืมหนังสือ
+  #     responses:
+  #       '200':
+  #         description: จำนวนครั้งที่แต่ละผู้ใช้ยืมหนังสือ
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 user_id:
+  #                   type: integer
+  #                 book_borrow_count:
+  #                   type: integer
+
+  # /late-return-fines:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาค่าปรับทั้งหมดจากการคืนหนังสือที่ล่าช้า
+  #     description: ค้นหาค่าปรับทั้งหมดที่เกิดจากการคืนหนังสือที่ล่าช้า
+  #     responses:
+  #       '200':
+  #         description: ค่าปรับทั้งหมดจากการคืนหนังสือที่ล่าช้า
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 total_fine:
+  #                   type: number
+  #                   format: float
+
+  # /most-popular-category:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาหมวดหมู่ที่มีหนังสือมากที่สุด
+  #     description: ค้นหาหมวดหมู่ที่มีหนังสือมากที่สุดในระบบ
+  #     responses:
+  #       '200':
+  #         description: หมวดหมู่ที่มีหนังสือมากที่สุด
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 category_id:
+  #                   type: integer
+  #                 book_count:
+  #                   type: integer
+
+  # /most-borrowed-category-user:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ยืมที่ยืมหนังสือจากแต่ละหมวดหมู่มากที่สุด
+  #     description: ค้นหาผู้ยืมที่ยืมหนังสือจากหมวดหมู่ที่มีการยืมมากที่สุด
+  #     responses:
+  #       '200':
+  #         description: ผู้ยืมที่ยืมหนังสือจากหมวดหมู่ที่มีการยืมมากที่สุด
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 user_id:
+  #                   type: integer
+  #                 category_id:
+  #                   type: integer
+  #                 borrow_count:
+  #                   type: integer
+
+  # /average-borrow-return-time:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาเวลาเฉลี่ยที่หนังสือแต่ละเล่มถูกยืมและคืน
+  #     description: คำนวณเวลาเฉลี่ยระหว่างการยืมและการคืนหนังสือแต่ละเล่ม
+  #     responses:
+  #       '200':
+  #         description: เวลาที่ใช้โดยเฉลี่ยในการยืมและคืนหนังสือแต่ละเล่ม
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 book_id:
+  #                   type: integer
+  #                 average_time:
+  #                   type: string
+  #                   format: duration
+
+  # /most-borrowed-category-by-user:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ยืมที่ยืมหนังสือจากหมวดหมู่เดียวกันมากที่สุด
+  #     description: ค้นหาผู้ยืมที่ยืมหนังสือจากหมวดหมู่เดียวกันมากที่สุด
+  #     responses:
+  #       '200':
+  #         description: ผู้ยืมที่ยืมหนังสือจากหมวดหมู่เดียวกันมากที่สุด
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 user_id:
+  #                   type: integer
+  #                 category_id:
+  #                   type: integer
+  #                 borrow_count:
+  #                   type: integer
+
+  # /highest-borrow-month-user:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ที่ยืมหนังสือมากที่สุดในเดือนที่มีการยืมสูงสุด
+  #     description: ค้นหาผู้ที่ยืมหนังสือมากที่สุดในเดือนที่มีการยืมสูงสุด
+  #     responses:
+  #       '200':
+  #         description: ผู้ยืมที่มีจำนวนการยืมมากที่สุดในเดือนที่มีการยืมสูงสุด
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 user_id:
+  #                   type: integer
+  #                 borrow_count:
+  #                   type: integer
+
+  # /highest-fine-category-user:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ที่ยืมหนังสือจากหมวดหมู่ที่มีค่าปรับสูงสุด
+  #     description: ค้นหาผู้ยืมที่ยืมหนังสือจากหมวดหมู่ที่มีค่าปรับสูงสุด
+  #     responses:
+  #       '200':
+  #         description: ผู้ยืมที่มีค่าปรับสูงสุดจากหมวดหมู่ที่มีค่าปรับสูงสุด
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 user_id:
+  #                   type: integer
+  #                 category_id:
+  #                   type: integer
+  #                 fine_amount:
+  #                   type: number
+  #                   format: float
+
+  # /same-day-borrowing-user:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ที่ยืมหนังสือหลายเล่มในวันเดียวกัน
+  #     description: ค้นหาผู้ที่ยืมหนังสือหลายเล่มในวันเดียวกัน
+  #     responses:
+  #       '200':
+  #         description: รายชื่อผู้ที่ยืมหนังสือหลายเล่มในวันเดียวกัน
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 user_id:
+  #                   type: integer
+  #                 borrow_date:
+  #                   type: string
+  #                   format: date
+  #                 borrow_count:
+  #                   type: integer
+
+  # /users-without-borrowed-books:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาผู้ที่ไม่ได้ยืมหนังสือจากแต่ละหมวดหมู่
+  #     description: ค้นหาผู้ที่ไม่ได้ยืมหนังสือจากหมวดหมู่แต่ละหมวดหมู่
+  #     responses:
+  #       '200':
+  #         description: รายชื่อผู้ที่ไม่ได้ยืมหนังสือจากหมวดหมู่ต่างๆ
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 user_id:
+  #                   type: integer
+  #                 category_id:
+  #                   type: integer
+
+
+  # /books-borrowed-returned-within-24hrs:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาหนังสือที่ถูกยืมและคืนภายใน 24 ชั่วโมง
+  #     description: ค้นหาหนังสือที่ถูกยืมและคืนภายใน 24 ชั่วโมง
+  #     responses:
+  #       '200':
+  #         description: รายการหนังสือที่ถูกยืมและคืนภายใน 24 ชั่วโมง
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 type: object
+  #                 properties:
+  #                   book_id:
+  #                     type: integer
+  #                   borrow_date:
+  #                     type: string
+  #                     format: date
+  #                   return_date:
+  #                     type: string
+  #                     format: date
+
+  # /monthly-late-fines:
+  #   get:
+  #     tags:
+  #       - reports
+  #     summary: ค้นหาจำนวนค่าปรับจากการคืนหนังสือที่ล่าช้าในแต่ละเดือน
+  #     description: ค้นหาค่าปรับทั้งหมดจากการคืนหนังสือที่ล่าช้าในแต่ละเดือน
+  #     responses:
+  #       '200':
+  #         description: ค่าปรับจากการคืนหนังสือที่ล่าช้าในแต่ละเดือน
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 month:
+  #                   type: string
+  #                 fine_amount:
+  #                   type: number
+  #                   format: float

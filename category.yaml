@@ -1,0 +1,390 @@
+  /category:
+    get:
+      tags:
+        - manage category
+      summary: Get all categories with pagination
+      operationId: getAllCategories
+      responses:
+        '200':
+          description: List of categories with pagination
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "200"
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "OK"
+                  result:
+                    type: object
+                    properties:
+                      pagination:
+                        type: object
+                        properties:
+                          total_items:
+                            type: integer
+                            example: 7
+                          total_page:
+                            type: integer
+                            example: 3
+                      categories:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/category_details'
+                      
+        '404':
+          description: No categories found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "404"
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Categories not found"
+    post:
+      tags:
+        - manage category
+      summary: Add a new category
+      operationId: addCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  maxLength: 10
+                  example: "5984394"
+                name_th:
+                  type: string
+                  maxLength: 255
+                  example: "การศึกษา"
+                name_en:
+                  type: string
+                  maxLength: 255
+                  example: "Education"
+
+
+
+      responses:
+        '201':
+          description: Category created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "201"
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Category created successfully"
+                  result:
+                    $ref: '#/components/schemas/category_details'
+        '400':
+          description: Bad request, invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "400"
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Invalid input data"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "500"
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal server error"
+
+
+  /category/{categoryId}:
+    get:
+      tags:
+        - manage category
+      summary: Get category by ID
+      operationId: getCategoryById
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          description: ID of the category
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Get category by ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "200"
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "OK"
+                  result:
+                    $ref: '#/components/schemas/category_details'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "404"
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Category not found"
+    put:
+      tags:
+        - manage category
+      summary: Update an existing category
+      operationId: updateCategory
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          description: ID of the category to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  maxLength: 10
+                  example: "5984394"
+                name_th:
+                  type: string
+                  maxLength: 255
+                  example: "การศึกษา"
+                name_en:
+                  type: string
+                  maxLength: 255
+                  example: "Education"
+
+
+      responses:
+        '200':
+          description: Category updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "200"
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Category updated successfully"
+                  result:
+                    $ref: '#/components/schemas/category'
+        '400':
+          description: Bad request, invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "400"
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Invalid input data"
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "404"
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string 
+                    example: "Category not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "500"
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal server error"
+    patch:
+      tags:
+        - manage category
+      summary: Partially update a category
+      operationId: patchCategory
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          description: ID of the category to update
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status_flag:
+                  type: string
+                  example: "INACTIVE"
+              required:
+                - status_flag
+      responses:
+        '200':
+          description: Category status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "200"
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Category status updated successfully"
+    delete:
+      tags:
+        - manage category
+      summary: Delete a category by ID
+      operationId: deleteCategory
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          description: ID of the category to delete
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Category deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "200"
+                  status:
+                    type: string
+                    example: "SUCCESS"
+                  message:
+                    type: string
+                    example: "Category deleted successfully"
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "404"
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Category not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: "500"
+                  status:
+                    type: string
+                    example: "ERROR"
+                  message:
+                    type: string
+                    example: "Internal server error"
